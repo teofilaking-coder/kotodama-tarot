@@ -114,13 +114,14 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
 .topic-jp{font-family:var(--f-brush);font-size:24px;line-height:1.3;color:var(--shu)}
 .q-input{width:100%;font-family:var(--f-body);font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:10px 12px}
 .count{font-family:var(--f-ui);color:var(--shu);margin-left:6px}
-.fan{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding-block:6px}
-.fan-card{position:relative;width:72px;aspect-ratio:3/5;border:0;padding:0;background:none;cursor:pointer;transition:transform .25s;filter:drop-shadow(3px 3px 0 rgba(30,27,24,.3))}
+.fan{--cw:min(96px,21vw);--step:10deg;--org:250%;position:relative;height:calc(var(--cw)*5/3 + 100px);margin-top:4px}
+@media (max-width:520px){.fan{--step:8deg;--org:230%}}
+.fan-card{position:absolute;left:50%;bottom:58px;width:var(--cw);margin-left:calc(var(--cw)/-2);aspect-ratio:3/5;border:0;padding:0;background:none;cursor:pointer;--a:calc(var(--k) * var(--step));transform-origin:50% var(--org);transform:rotate(var(--a));transition:transform .25s;filter:drop-shadow(3px 3px 0 rgba(30,27,24,.3))}
 .fan-card svg{display:block;width:100%;height:100%}
-.fan-card:hover{transform:translateY(-4px)}
-.fan-card.on{transform:translateY(-10px)}
+.fan-card:hover{transform:rotate(var(--a)) translateY(-8px)}
+.fan-card.on{transform:rotate(var(--a)) translateY(-24px)}
 .fan-card.on svg{outline:3px solid var(--shu);outline-offset:1px}
-.badge{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);font-family:var(--f-brush);font-size:14px;color:var(--paper);background:var(--shu);padding:1px 8px;white-space:nowrap}
+.badge{position:absolute;left:50%;top:-12px;transform:translateX(-50%);font-family:var(--f-brush);font-size:14px;color:var(--paper);background:var(--shu);padding:1px 8px;white-space:nowrap}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .center{justify-content:center;text-align:center}
 .spread3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;perspective:900px}
@@ -504,7 +505,7 @@ function renderAsk(){
    :`<p class="txt">${t.ko}에 대한 질문을 마음속으로 떠올리세요.</p>`}
   </section>
   <p class="prompt" id="pick-msg">마음이 가는 카드 세 장을 고르세요 <span class="count">${ask.picked.length} / 3</span></p>
-  <div class="fan">${[0,1,2,3,4,5,6].map(i=>{const p=ask.picked.indexOf(i);return `<button class="fan-card${p>=0?" on":""}" data-i="${i}" aria-label="${i+1}번째 카드">${backSVG()}${p>=0?`<span class="badge">${POS[p].jp}</span>`:""}</button>`}).join("")}</div>
+  <div class="fan">${[0,1,2,3,4,5,6].map(i=>{const p=ask.picked.indexOf(i);return `<button class="fan-card${p>=0?" on":""}" data-i="${i}" style="--k:${i-3}" aria-label="${i+1}번째 카드">${backSVG()}${p>=0?`<span class="badge">${POS[p].jp}</span>`:""}</button>`}).join("")}</div>
   <div class="row center"><button class="btn" id="spread" ${ask.picked.length<3?"disabled":""}>카드 펼치기</button></div>
   <p class="toast center" id="ask-toast" aria-live="polite"></p>
  </div>`;
