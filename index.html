@@ -104,6 +104,38 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
 .toast{font-family:var(--f-ui);font-size:14px;color:var(--shu)}
 .note{font-family:var(--f-ui);font-size:12.5px;color:var(--ink-soft);line-height:1.65;margin:0}
 
+/* question tarot */
+.topics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.topic{white-space:nowrap}
+.ko-s{display:none}
+@media (max-width:480px){.topics{gap:5px}.topic{padding:10px 2px;font-size:13px}.ko-l{display:none}.ko-s{display:inline}.topic-jp{font-size:19px}nav button{font-size:13.5px;padding-inline:2px;white-space:nowrap}}
+.topic{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 8px;background:var(--paper);border:1px solid var(--line);border-top:2px solid var(--ink);color:var(--ink);font-family:var(--f-ui);font-size:15px;cursor:pointer;text-align:center;min-width:0;overflow:hidden}
+.topic:hover{border-color:var(--shu)}
+.topic-jp{font-family:var(--f-brush);font-size:24px;line-height:1.3;color:var(--shu)}
+.q-input{width:100%;font-family:var(--f-body);font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:10px 12px}
+.count{font-family:var(--f-ui);color:var(--shu);margin-left:6px}
+.fan{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding-block:6px}
+.fan-card{position:relative;width:72px;aspect-ratio:3/5;border:0;padding:0;background:none;cursor:pointer;transition:transform .25s;filter:drop-shadow(3px 3px 0 rgba(30,27,24,.3))}
+.fan-card svg{display:block;width:100%;height:100%}
+.fan-card:hover{transform:translateY(-4px)}
+.fan-card.on{transform:translateY(-10px)}
+.fan-card.on svg{outline:3px solid var(--shu);outline-offset:1px}
+.badge{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);font-family:var(--f-brush);font-size:14px;color:var(--paper);background:var(--shu);padding:1px 8px;white-space:nowrap}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.center{justify-content:center;text-align:center}
+.spread3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;perspective:900px}
+.slot{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.slot-pos{display:flex;align-items:center;gap:5px;font-family:var(--f-ui);font-size:12px;color:var(--ink-soft)}
+.slot-pos b{font-family:var(--f-brush);font-weight:400;color:var(--paper);background:var(--shu);padding:0 5px}
+.flip.small{width:100%;max-width:130px}
+.slot-name{font-family:var(--f-brush);font-size:17px;text-align:center;line-height:1.3}
+.slot-name span{display:block;font-family:var(--f-ui);font-size:12px;color:var(--ink-soft)}
+.mini-kotoba{font-family:var(--f-ui);font-size:13px;color:var(--ink-soft);margin:4px 0 0}
+.mini-kotoba span{font-family:var(--f-brush);font-size:16px;color:var(--ink)}
+.summary{border-top-color:var(--shu)}
+.entry.reading{grid-template-columns:auto 1fr}
+.entry-faces{display:flex;gap:4px}
+.entry-faces .face{width:34px;aspect-ratio:3/5}
 /* deck */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:16px 12px}
 .mini{border:0;padding:0;background:none;cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:center;color:var(--ink)}
@@ -160,12 +192,13 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
     <div class="seal-title" aria-hidden="true">言<br>霊</div>
     <div class="head-text">
       <h1>코토다마 타로</h1>
-      <p class="sub">하루 한 장, 일본 신화 속 장면과 일본어 한 마디, 그리고 나에게 던지는 질문 하나</p>
+      <p class="sub">하루 한 장의 일본어 한 마디, 그리고 연애·일·돈·건강을 묻는 세 장의 카드</p>
     </div>
   </header>
 
   <nav role="tablist">
     <button role="tab" id="tab-today" aria-selected="true" data-view="today">오늘의 카드</button>
+    <button role="tab" id="tab-ask" aria-selected="false" data-view="ask">질문 타로</button>
     <button role="tab" id="tab-deck" aria-selected="false" data-view="deck">카드 22장</button>
     <button role="tab" id="tab-journal" aria-selected="false" data-view="journal">기록</button>
   </nav>
@@ -404,12 +437,147 @@ function renderDeck(){
  view.querySelectorAll(".mini").forEach(b=>b.onclick=()=>{renderReveal(CARDS[+b.dataset.n],false,false);window.scrollTo({top:0})});
 }
 
-function renderJournal(){
- if(!state.entries.length){
-  view.innerHTML=`<div class="empty">아직 기록이 없어요.<br>오늘의 카드를 뽑고 질문에 답하면 여기에 날짜별로 쌓입니다.</div>`;
+/* ---------- 질문 타로 (3-card reading) ---------- */
+const TOPICS=[
+ {k:"love",jp:"恋愛",ko:"연애·사랑",s:"연애"},
+ {k:"work",jp:"仕事",ko:"일·사업",s:"일"},
+ {k:"money",jp:"金運",ko:"돈·금전",s:"금전"},
+ {k:"health",jp:"健康",ko:"건강·마음",s:"건강"},
+ {k:"free",jp:"問い",ko:"직접 질문",s:"질문"}
+];
+const POS=[{jp:"今",ko:"현재 상황"},{jp:"流れ",ko:"숨은 흐름"},{jp:"導き",ko:"조언"}];
+// t: 1 밝음, 0 중립, -1 점검 / l,w,m,h,g: 주제별 해석 / a: 조언
+const READ=[
+ {t:1,l:"계산보다 설렘이 앞서는 시기예요. 새로운 만남이나 관계의 새 국면이 가볍게 시작될 수 있어요.",w:"처음 해보는 일에 뛰어들 기운이 있어요. 완벽한 준비보다 작게 시작해보는 쪽이 길을 열어요.",m:"즉흥적인 지출이 늘기 쉬운 때예요. 새 시도에 쓰는 돈은 미리 한도를 정해두세요.",h:"몸이 가벼워지고 무언가 새로 해보고 싶은 기분이에요. 새 운동은 욕심내지 말고 가볍게 시작하세요.",g:"아직 정해진 것이 없기에 무엇이든 될 수 있는 출발점이에요.",a:"결과를 다 알 수 없어도 첫걸음을 내디뎌 보세요."},
+ {t:1,l:"마음을 표현할 말과 기회가 이미 손에 있어요. 먼저 다가가면 흐름이 움직여요.",w:"가진 기술과 자원을 조합하면 성과로 이어지는 때예요. 기획한 것을 실행으로 옮기세요.",m:"재주가 수입으로 이어질 가능성이 보여요. 내 능력을 상품으로 만드는 방법을 떠올려 보세요.",h:"의지가 잘 서는 시기라 생활 습관을 바꾸기 좋아요.",g:"필요한 재료는 이미 갖춰져 있어요. 이제 쓰기만 하면 돼요.",a:"이미 가진 도구 하나를 오늘 실제로 써보세요."},
+ {t:0,l:"겉으로 드러나지 않은 감정이 흐르고 있어요. 서두르기보다 상대의 마음을 조용히 살펴보세요.",w:"아직 드러나지 않은 정보가 있어요. 결정을 조금 미루고 더 알아보는 편이 안전해요.",m:"큰 결정보다 관찰과 공부가 어울리는 때예요. 숫자를 차분히 들여다보세요.",h:"몸이 보내는 작은 신호에 귀 기울일 때예요. 충분한 휴식과 수면을 챙기세요.",g:"답은 바깥보다 내 안의 직감 쪽에 있어요.",a:"말하기 전에 한 번 더 느껴보세요."},
+ {t:1,l:"따뜻하고 풍요로운 관계의 기운이에요. 돌봄과 애정 표현이 관계를 키워요.",w:"시간을 들여 키워온 일이 열매를 맺기 시작해요. 창작과 기획에 특히 좋아요.",m:"수입이 늘어나는 흐름이에요. 넉넉할수록 새어 나가는 돈도 함께 살펴보세요.",h:"몸과 마음에 회복력이 생기는 시기예요. 잘 먹고 잘 쉬는 것이 가장 큰 돌봄이에요.",g:"정성 들여 가꾼 것이 자라나고 있어요.",a:"다른 사람을 돌보듯 나 자신도 돌봐주세요."},
+ {t:1,l:"안정과 책임감이 중요한 시기예요. 약속을 지키는 모습이 신뢰를 쌓아요.",w:"구조와 체계를 세우기 좋은 때예요. 역할과 규칙을 분명히 하면 일이 단단해져요.",m:"계획적인 관리가 힘을 발휘해요. 예산과 고정 지출을 정리해보세요.",h:"규칙적인 생활 리듬이 몸을 지켜줘요.",g:"기반을 단단히 다지는 시기예요.",a:"흔들리지 않을 규칙 하나를 정하세요."},
+ {t:0,l:"진지하고 안정적인 관계의 흐름이에요. 주변의 조언이나 정식 약속이 의미를 가져요.",w:"배움과 검증된 방식이 도움이 돼요. 좋은 스승이나 선배의 조언을 구해보세요.",m:"검증된 방법을 따르는 편이 안전해요. 모르는 분야라면 전문가에게 확인하세요.",h:"기본으로 돌아갈 때예요. 이미 알고 있는 좋은 습관을 지키세요.",g:"앞서 걸어간 사람들의 지혜가 길을 비춰줘요.",a:"혼자 고민하지 말고 믿을 만한 사람에게 물어보세요."},
+ {t:1,l:"마음이 통하는 만남, 또는 관계에서 중요한 선택의 순간이에요.",w:"협업이나 파트너십에서 좋은 궁합이 보여요. 함께할 사람을 신중히 고르세요.",m:"두 가지 선택지 사이에서 고민하게 돼요. 내 가치관에 맞는 쪽을 고르세요.",h:"마음이 편해야 몸도 편한 때예요. 좋아하는 사람과 보내는 시간이 회복이 돼요.",g:"중요한 선택 앞에서 내 마음이 진짜 원하는 쪽을 보세요.",a:"머리보다 마음이 기우는 방향을 존중하세요."},
+ {t:1,l:"적극적으로 다가가면 관계가 앞으로 나아가요. 다만 상대의 속도도 살피세요.",w:"추진력이 최고조예요. 목표를 정하고 밀고 나가면 결과가 나와요.",m:"목표를 세운 저축이나 수입 계획이 잘 굴러가요.",h:"에너지가 넘치는 시기예요. 무리하다 지치지 않도록 속도를 조절하세요.",g:"흩어진 힘을 한 방향으로 모으면 앞으로 나아가요.",a:"목표를 하나로 좁히고 밀고 나가세요."},
+ {t:1,l:"부드러운 인내가 관계를 지켜줘요. 감정을 다그치기보다 따뜻하게 받아주세요.",w:"힘으로 밀어붙이기보다 끈기와 설득이 통하는 때예요.",m:"충동을 다스리는 힘이 재정을 지켜요. 사고 싶은 마음을 하루만 미뤄보세요.",h:"꾸준함이 체력을 만들어요. 작은 습관을 오래 이어가세요.",g:"부드러움이 가장 단단한 힘이 되는 때예요.",a:"억누르기보다 달래며 다스리세요."},
+ {t:0,l:"혼자만의 시간이 필요할 수 있어요. 나를 먼저 이해하면 관계도 선명해져요.",w:"혼자 깊이 파고드는 연구나 기획에 좋은 때예요. 화려한 확장보다 내실을 다지세요.",m:"지출을 줄이고 조용히 정비하기 좋은 시기예요.",h:"휴식과 고요함이 회복의 열쇠예요. 혼자 걷는 시간을 가져보세요.",g:"바깥의 소음을 줄이고 안쪽을 비출 때예요.",a:"잠시 멈추고 혼자 생각할 시간을 확보하세요."},
+ {t:1,l:"인연의 흐름이 바뀌는 시기예요. 예상치 못한 만남이나 전환이 찾아올 수 있어요.",w:"상황이 빠르게 바뀌어요. 흐름에 올라탈 준비를 해두세요.",m:"오르내림이 있는 시기예요. 좋은 흐름일 때 일부를 비축하세요.",h:"생활 리듬의 변화가 몸에 영향을 줘요. 계절과 환경 변화에 맞춰 조절하세요.",g:"흐름이 바뀌고 있어요. 좋은 쪽으로 돌릴 기회가 있어요.",a:"변화에 저항하기보다 흐름을 읽으세요."},
+ {t:0,l:"공정함과 솔직함이 필요한 때예요. 서로 주고받는 균형을 살펴보세요.",w:"계약, 서류, 평가 같은 일이 중요해져요. 꼼꼼히 확인하면 정당한 결과가 따라와요.",m:"수입과 지출의 균형을 맞출 때예요. 계약서와 청구서를 꼼꼼히 확인하세요.",h:"일과 휴식의 균형이 컨디션을 좌우해요.",g:"뿌린 대로 거두는 시기예요. 정직한 판단이 길을 열어요.",a:"감정보다 사실을 기준으로 판단하세요."},
+ {t:-1,l:"관계가 잠시 멈춘 듯 느껴질 수 있어요. 다른 각도에서 바라보면 새로운 이해가 생겨요.",w:"일이 지연되거나 기다려야 하는 상황이에요. 이 시간을 관점을 바꾸는 기회로 쓰세요.",m:"당장의 이익보다 장기적인 관점이 필요해요. 서두른 결정은 미루세요.",h:"몸이 쉬어가라는 신호를 보낼 수 있어요. 잠시 멈추는 것도 회복이에요.",g:"멈춤 속에서 새로운 시각이 생겨나요.",a:"거꾸로 보면 다르게 보이는 것을 찾아보세요."},
+ {t:-1,l:"한 단계가 끝나고 새로운 관계의 형태가 시작돼요. 놓아줄 것은 놓아주세요.",w:"하나의 프로젝트나 방식이 끝나고 전환이 와요. 끝은 새 시작의 자리예요.",m:"오래된 소비 습관이나 불필요한 구독을 정리할 때예요.",h:"낡은 습관을 끊고 새 리듬을 만들기 좋은 시기예요.",g:"무언가가 끝나야 새것이 자랄 자리가 생겨요.",a:"끝내야 할 것 하나를 정리하세요."},
+ {t:1,l:"서로의 차이를 조율하며 관계가 안정돼요. 지나치지도 부족하지도 않게.",w:"여러 요소를 조화롭게 섞는 능력이 빛나요. 협력과 조율이 핵심이에요.",m:"균형 잡힌 관리가 좋은 결과를 내요. 쓰는 돈과 모으는 돈의 비율을 맞추세요.",h:"적당함이 최고의 돌봄이에요. 무엇이든 과하지 않게.",g:"알맞은 비율을 찾을 때 일이 순조로워져요.",a:"극단을 피하고 중간 지점을 찾으세요."},
+ {t:-1,l:"집착하거나 끌려다니는 관계는 아닌지 돌아볼 때예요. 무엇이 나를 붙잡고 있는지 보세요.",w:"눈앞의 유혹이나 무리한 조건에 묶이기 쉬워요. 계약 조건을 잘 살피세요.",m:"충동구매나 쉬운 돈의 유혹을 조심하세요.",h:"끊고 싶은데 끊지 못한 습관이 있다면 지금 돌아볼 때예요.",g:"나를 묶고 있는 것이 무엇인지 알아차리는 것이 시작이에요.",a:"나를 묶는 습관 하나를 알아차리세요."},
+ {t:-1,l:"예상치 못한 일로 관계의 진실이 드러날 수 있어요. 흔들려도 그 뒤에 더 단단해질 수 있어요.",w:"계획이 갑자기 바뀌거나 무너질 수 있어요. 무너진 자리에 더 나은 구조를 세우세요.",m:"갑작스러운 지출에 대비하세요. 비상금이 든든한 방패가 돼요.",h:"무리가 쌓였다면 몸이 신호를 보낼 수 있어요. 미리 쉬어가세요.",g:"갑작스러운 변화가 오히려 진실을 드러내요.",a:"무너진 것에 매달리기보다 다시 세울 것을 보세요."},
+ {t:1,l:"희망적인 흐름이에요. 상처가 아물고 진심이 통할 수 있어요.",w:"꿈꾸던 방향이 다시 보이기 시작해요. 장기 목표를 세우기 좋아요.",m:"서서히 회복되는 흐름이에요. 조급해하지 말고 꾸준히 가세요.",h:"회복의 기운이 있어요. 마음을 편히 가지는 것이 도움이 돼요.",g:"폭풍이 지나고 먼 빛이 다시 보여요.",a:"품고 있는 바람을 한 줄로 적어보세요."},
+ {t:-1,l:"상대의 마음이 잘 보이지 않아 불안할 수 있어요. 추측보다 대화로 확인하세요.",w:"정보가 불확실하고 오해가 생기기 쉬워요. 중요한 결정은 확인한 뒤에 하세요.",m:"불확실한 투자나 출처가 애매한 제안은 피하세요.",h:"수면과 마음의 불안을 살필 때예요. 잠을 잘 자는 것부터 챙기세요.",g:"흐릿한 달빛 아래서는 모든 것이 실제보다 커 보여요.",a:"불안한 생각은 적어서 사실과 구분해보세요."},
+ {t:1,l:"밝고 솔직한 사랑의 기운이에요. 함께 웃는 시간이 관계를 빛나게 해요.",w:"성과가 드러나고 인정받는 시기예요. 자신 있게 보여주세요.",m:"좋은 흐름이에요. 기쁨을 나누는 데 쓰는 돈도 의미가 있어요.",h:"활력이 넘쳐요. 햇볕을 쬐고 몸을 움직이세요.",g:"모든 것이 선명하고 밝게 드러나는 때예요.",a:"오늘의 기쁜 일을 누군가와 나누세요."},
+ {t:1,l:"지난 관계를 돌아보며 새 출발을 결심할 수 있어요. 오래전 인연에게서 연락이 올 수도 있어요.",w:"오래 미뤄둔 일을 다시 꺼내 결단할 때예요. 소명처럼 느껴지는 일에 응답하세요.",m:"과거의 노력이 평가받고 보상으로 돌아올 수 있어요.",h:"몸과 마음을 새롭게 하기로 결심하기 좋은 때예요.",g:"잠들어 있던 내 안의 목소리가 다시 나를 불러요.",a:"처음의 마음을 떠올리고 결정하세요."},
+ {t:1,l:"관계가 하나의 완성에 이르는 시기예요. 함께한 시간이 결실을 맺어요.",w:"한 단계를 성공적으로 마무리해요. 다음 무대로 넓혀갈 준비를 하세요.",m:"목표했던 것이 이루어지는 흐름이에요. 마무리를 잘 정리하세요.",h:"몸과 마음이 조화를 이루는 상태예요. 지금의 좋은 리듬을 유지하세요.",g:"한 바퀴가 완성되고 새로운 여정이 기다려요.",a:"끝맺음을 축하하고 다음 원을 그리세요."}
+];
+const TKEY={love:"l",work:"w",money:"m",health:"h",free:"g"};
+const SUMMARY={
+ love:["서두르기보다 내 마음을 먼저 돌보는 게 좋아요.","속도를 맞추며 대화하면 관계가 자리를 잡아요.","마음을 열면 좋은 흐름이 이어져요."],
+ work:["무리한 확장보다 점검과 정비가 먼저예요.","계획을 다듬고 우선순위를 정리하면 길이 보여요.","지금의 추진력을 실행으로 옮기기 좋아요."],
+ money:["큰 지출과 결정은 잠시 미루는 편이 안전해요.","균형을 지키면 무난하게 흘러가요.","들어오는 흐름이 좋아요. 일부는 꼭 비축하세요."],
+ health:["충분히 쉬어가세요. 불편함이 이어지면 꼭 전문가와 상담하세요.","쉼과 움직임의 균형을 맞출 때예요.","몸과 마음에 활력이 있어요. 좋은 리듬을 이어가세요."],
+ free:["지금은 멈추고 살필 때예요. 서두르지 마세요.","변화 속에서 균형을 잡으면 답이 보여요.","흐름이 당신 편이에요. 움직여 보세요."]
+};
+const TONE_NAME=["점검이 필요한 흐름","조율이 필요한 흐름","밝은 흐름"];
+let ask={topic:null,question:"",picked:[],cards:null};
+
+function renderAsk(){
+ if(ask.cards){renderReading(false);return;}
+ if(!ask.topic){
+  view.innerHTML=`<div class="panel">
+   <p class="prompt">무엇이 궁금한가요? 주제를 고르세요</p>
+   <div class="topics">${TOPICS.map(t=>`<button class="topic" data-k="${t.k}"><span class="topic-jp">${t.jp}</span><span class="ko-l">${t.ko}</span><span class="ko-s">${t.s}</span></button>`).join("")}</div>
+   <p class="note">세 장의 카드가 현재 상황, 숨은 흐름, 조언을 차례로 보여줍니다.</p>
+  </div>`;
+  view.querySelectorAll(".topic").forEach(b=>b.onclick=()=>{ask.topic=b.dataset.k;ask.picked=[];ask.question="";renderAsk();});
   return;
  }
- view.innerHTML=`<div class="entries">${state.entries.map(e=>{const c=CARDS[e.card];return `
+ const t=TOPICS.find(x=>x.k===ask.topic);
+ const needQ=ask.topic==="free";
+ view.innerHTML=`<div class="panel">
+  <button class="btn ghost back-link" id="ask-back">← 주제 다시 고르기</button>
+  <section class="sheet">
+   <p class="label"><b>${t.jp}</b>${t.ko}</p>
+   ${needQ?`<label for="q-input" class="note">궁금한 것을 한 문장으로 적어주세요.</label>
+   <input id="q-input" class="q-input" type="text" maxlength="80" placeholder="예: 이번 달에 새 일을 시작해도 될까?" value="${esc(ask.question)}">`
+   :`<p class="txt">${t.ko}에 대한 질문을 마음속으로 떠올리세요.</p>`}
+  </section>
+  <p class="prompt" id="pick-msg">마음이 가는 카드 세 장을 고르세요 <span class="count">${ask.picked.length} / 3</span></p>
+  <div class="fan">${[0,1,2,3,4,5,6].map(i=>{const p=ask.picked.indexOf(i);return `<button class="fan-card${p>=0?" on":""}" data-i="${i}" aria-label="${i+1}번째 카드">${backSVG()}${p>=0?`<span class="badge">${POS[p].jp}</span>`:""}</button>`}).join("")}</div>
+  <div class="row center"><button class="btn" id="spread" ${ask.picked.length<3?"disabled":""}>카드 펼치기</button></div>
+  <p class="toast center" id="ask-toast" aria-live="polite"></p>
+ </div>`;
+ document.getElementById("ask-back").onclick=()=>{ask.topic=null;renderAsk();};
+ const qi=document.getElementById("q-input"); if(qi) qi.oninput=()=>{ask.question=qi.value;};
+ view.querySelectorAll(".fan-card").forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.i, p=ask.picked.indexOf(i);
+  if(p>=0) ask.picked.splice(p,1); else if(ask.picked.length<3) ask.picked.push(i);
+  renderAsk();
+ });
+ document.getElementById("spread").onclick=()=>{
+  if(needQ && !ask.question.trim()){document.getElementById("ask-toast").textContent="질문을 먼저 적어주세요.";return;}
+  const pool=[...Array(22).keys()];
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  ask.cards=pool.slice(0,3);
+  renderReading(true);
+ };
+}
+
+function readingText(n,pos,topic){
+ const r=READ[n], base=r[TKEY[topic]];
+ return pos===2 ? `${r.a} ${base}` : base;
+}
+function toneIndex(cards){const s=cards.reduce((a,n)=>a+READ[n].t,0);return s>=2?2:s<=-1?0:1;}
+
+function renderReading(animate){
+ const t=TOPICS.find(x=>x.k===ask.topic), cs=ask.cards, ti=toneIndex(cs);
+ view.innerHTML=`<div class="panel">
+  <section class="sheet">
+   <p class="label"><b>${t.jp}</b>${t.ko}</p>
+   ${ask.topic==="free"?`<p class="question">“${esc(ask.question)}”</p>`:`<p class="txt">${t.ko}에 대해 카드가 답합니다.</p>`}
+  </section>
+  <div class="spread3">${cs.map((n,i)=>`<div class="slot">
+    <div class="slot-pos"><b>${POS[i].jp}</b>${POS[i].ko}</div>
+    <div class="flip small${animate?"":" on"}" data-d="${i}"><div class="f-back">${backSVG()}</div><div class="f-front face">${cardImg(CARDS[n])}</div></div>
+    <div class="slot-name">${CARDS[n].jp}<span>${CARDS[n].ko}</span></div>
+   </div>`).join("")}</div>
+  ${cs.map((n,i)=>{const c=CARDS[n];return `<section class="sheet">
+    <p class="label"><b>${POS[i].jp}</b>${POS[i].ko} · ${c.jp}(${c.ko})</p>
+    <p class="txt">${readingText(n,i,ask.topic)}</p>
+    <p class="mini-kotoba"><span>${c.ex}</span> ${c.exKana} — ${c.lit}</p>
+   </section>`}).join("")}
+  <section class="sheet summary">
+   <p class="label"><b>結</b>종합 · ${TONE_NAME[ti]}</p>
+   <p class="question">${SUMMARY[ask.topic][ti]}</p>
+   <p class="note">재미와 자기 성찰을 위한 해석이에요. 건강·돈·법률처럼 중요한 결정은 전문가와 상의하세요.</p>
+  </section>
+  <div class="row"><button class="btn" id="r-save">기록에 저장</button><button class="btn ghost" id="r-again">새 질문하기</button><span class="toast" id="r-toast" aria-live="polite"></span></div>
+ </div>`;
+ if(animate){view.querySelectorAll(".flip.small").forEach(f=>setTimeout(()=>f.classList.add("on"),250+(+f.dataset.d)*450));}
+ document.getElementById("r-again").onclick=()=>{ask={topic:null,question:"",picked:[],cards:null};renderAsk();window.scrollTo({top:0});};
+ document.getElementById("r-save").onclick=()=>{
+  state.entries.unshift({type:"reading",date:todayStr(),topic:ask.topic,question:ask.question,cards:cs.slice()});
+  save();document.getElementById("r-toast").textContent="기록에 저장했어요.";document.getElementById("r-save").disabled=true;
+ };
+}
+
+function readingEntry(e){
+ const t=TOPICS.find(x=>x.k===e.topic)||TOPICS[4], ti=toneIndex(e.cards);
+ return `<article class="entry reading">
+  <div class="entry-faces">${e.cards.map(n=>`<div class="face">${cardImg(CARDS[n])}</div>`).join("")}</div>
+  <div class="entry-body"><div class="entry-head">${e.date} · 질문 타로 · ${t.ko}</div>
+  ${e.question?`<p class="entry-q">“${esc(e.question)}”</p>`:""}
+  <p class="entry-a">${e.cards.map((n,i)=>`${POS[i].ko}: ${CARDS[n].jp}(${CARDS[n].ko})`).join(" · ")}</p>
+  <p class="entry-q">${TONE_NAME[ti]} — ${SUMMARY[e.topic][ti]}</p></div></article>`;
+}
+
+function renderJournal(){
+ if(!state.entries.length){
+  view.innerHTML=`<div class="empty">아직 기록이 없어요.<br>오늘의 카드에 답하거나 질문 타로 결과를 저장하면 여기에 날짜별로 쌓입니다.</div>`;
+  return;
+ }
+ view.innerHTML=`<div class="entries">${state.entries.map(e=>{if(e.type==="reading")return readingEntry(e);const c=CARDS[e.card];return `
   <article class="entry"><div class="face">${cardImg(c)}</div>
    <div class="entry-body"><div class="entry-head">${e.date} · ${c.jp}(${c.ko}) · ${c.myth.name}</div>
    <p class="entry-q">${c.q}</p><p class="entry-a">${esc(e.answer)}</p></div></article>`}).join("")}</div>`;
@@ -417,11 +585,11 @@ function renderJournal(){
 
 function show(v){
  document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-selected",b.dataset.view===v));
- if(v==="today")renderToday(); else if(v==="deck")renderDeck(); else renderJournal();
+ if(v==="today")renderToday(); else if(v==="ask")renderAsk(); else if(v==="deck")renderDeck(); else renderJournal();
 }
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.view));
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{})}
-show("today");
+(function(){try{const p=new URLSearchParams(location.search).get("card");const n=p===null?NaN:parseInt(p,10);if(n>=0&&n<22){state.today={date:todayStr(),card:n};save();history.replaceState(null,"",location.pathname);}}catch(e){}show("today");})();
 </script>
 
 </body>
