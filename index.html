@@ -108,7 +108,7 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
 .topics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .topic{white-space:nowrap}
 .ko-s{display:none}
-@media (max-width:480px){.topics{gap:5px}.topic{padding:10px 2px;font-size:13px}.ko-l{display:none}.ko-s{display:inline}.topic-jp{font-size:19px}nav button{font-size:13.5px;padding-inline:2px;white-space:nowrap}}
+@media (max-width:480px){.topics{gap:5px}.topic{padding:10px 2px;font-size:13px}.ko-l{display:none}.ko-s{display:inline}.topic-jp{font-size:19px}nav button{font-size:12.5px;padding-inline:1px;white-space:nowrap;letter-spacing:-.03em}}
 .topic{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 8px;background:var(--paper);border:1px solid var(--line);border-top:2px solid var(--ink);color:var(--ink);font-family:var(--f-ui);font-size:15px;cursor:pointer;text-align:center;min-width:0;overflow:hidden}
 .topic:hover{border-color:var(--shu)}
 .topic-jp{font-family:var(--f-brush);font-size:24px;line-height:1.3;color:var(--shu)}
@@ -137,6 +137,49 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
 .entry.reading{grid-template-columns:auto 1fr}
 .entry-faces{display:flex;gap:4px}
 .entry-faces .face{width:34px;aspect-ratio:3/5}
+/* omikuji */
+nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.3}
+.tab-sub{font-size:10.5px;color:var(--ink-soft);font-weight:400;letter-spacing:0}
+.mikuji-intro{text-align:center;display:flex;flex-direction:column;gap:2px}
+.mikuji-intro h2{font-family:var(--f-brush);font-weight:400;font-size:30px;margin:0;line-height:1.3}
+.mikuji-intro .ko{font-family:var(--f-ui);font-size:15px;color:var(--ink)}
+.mikuji-intro .desc{font-family:var(--f-ui);font-size:13px;color:var(--ink-soft)}
+.btn-sub{display:block;font-size:11.5px;opacity:.8}
+.mp-title small{display:block;font-family:var(--f-ui);font-size:11px;color:var(--ink-soft);text-align:right}
+.mikuji-stage{display:flex;justify-content:center;padding-block:10px}
+.mikuji-box{width:120px;aspect-ratio:3/5;transform-origin:50% 90%}
+.mikuji-box svg{display:block;width:100%;height:100%}
+.mikuji-box .stick{transition:transform .5s ease}
+.mikuji-box.shaking{animation:shake .22s ease-in-out 5}
+.mikuji-box.out .stick{transform:translateY(-16px)}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+.mikuji-paper{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--shu);border-bottom:3px solid var(--shu);padding:20px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:4px 5px 0 rgba(30,27,24,.18);transform-origin:50% 0}
+.mikuji-paper.unfold{animation:unfold .8s cubic-bezier(.3,.7,.2,1)}
+@keyframes unfold{from{transform:scaleY(.05);opacity:0}to{transform:scaleY(1);opacity:1}}
+.mp-head{width:100%;display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-jp);font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line);padding-bottom:6px}
+.mp-title{font-family:var(--f-brush);font-size:16px;color:var(--ink)}
+.mp-rank{font-family:var(--f-brush);font-size:64px;line-height:1.3;color:var(--shu);margin-top:6px}
+.mp-rank rt{font-family:var(--f-jp);font-size:14px;color:var(--ink-soft);letter-spacing:.2em}
+.mp-rank-jp{font-family:var(--f-brush);font-size:20px;margin:0}
+.mp-rank-ko{font-family:var(--f-ui);font-size:14px;color:var(--ink-soft);margin:0 0 6px}
+.mp-word{width:100%;border-block:1px solid var(--line);padding:14px 0 10px;display:flex;flex-direction:column;gap:2px}
+.mp-ex{font-family:var(--f-brush);font-size:26px;line-height:1.45;margin:0;overflow-wrap:anywhere}
+.mp-msg{margin:6px 0 4px;font-size:17px;line-height:1.75;text-wrap:balance;max-width:34em}
+.mp-items{width:100%;max-width:420px;margin:6px 0 0;display:grid;grid-template-columns:1fr;text-align:left}
+.mp-items>div{display:grid;grid-template-columns:3.6em 1fr;gap:8px;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.mp-items dt{font-family:var(--f-brush);font-size:17px;color:var(--shu)}
+.mp-items dt rt{font-family:var(--f-jp);font-size:9px;color:var(--ink-soft)}
+.mp-items dd{margin:0;display:flex;flex-direction:column;min-width:0}
+.mp-jp{font-family:var(--f-jp);font-size:15px;line-height:2}
+.mp-rank-jp,.mp-ex,.oe-ex{line-height:2}
+.mikuji-paper rt,.oe-ex rt{font-family:var(--f-jp);font-size:max(.5em,10px);color:var(--ink-soft);letter-spacing:.02em}
+.mp-jp{font-size:16px}
+.mp-ex rt{font-size:.4em}
+.mp-ko{font-family:var(--f-ui);font-size:12.5px;color:var(--ink-soft)}
+.omikuji-entry{grid-template-columns:56px 1fr}
+.oe-rank{font-family:var(--f-brush);font-size:22px;line-height:1.2;color:var(--shu);text-align:center;border:1px solid var(--shu);padding:8px 2px;align-self:start}
+.oe-ex{font-family:var(--f-brush);font-size:17px}
+@media (prefers-reduced-motion:reduce){.mikuji-box.shaking,.mikuji-paper.unfold{animation:none}}
 /* deck */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:16px 12px}
 .mini{border:0;padding:0;background:none;cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:center;color:var(--ink)}
@@ -193,13 +236,14 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
     <div class="seal-title" aria-hidden="true">言<br>霊</div>
     <div class="head-text">
       <h1>코토다마 타로</h1>
-      <p class="sub">하루 한 장의 일본어 한 마디, 그리고 연애·일·돈·건강을 묻는 세 장의 카드</p>
+      <p class="sub">오늘의 일본어 한 마디, 세 장으로 묻는 질문 타로, 위로를 건네는 おみくじ</p>
     </div>
   </header>
 
   <nav role="tablist">
     <button role="tab" id="tab-today" aria-selected="true" data-view="today">오늘의 카드</button>
     <button role="tab" id="tab-ask" aria-selected="false" data-view="ask">질문 타로</button>
+    <button role="tab" id="tab-omikuji" aria-selected="false" data-view="omikuji">おみくじ<small class="tab-sub">운세 뽑기</small></button>
     <button role="tab" id="tab-deck" aria-selected="false" data-view="deck">카드 22장</button>
     <button role="tab" id="tab-journal" aria-selected="false" data-view="journal">기록</button>
   </nav>
@@ -573,12 +617,128 @@ function readingEntry(e){
   <p class="entry-q">${TONE_NAME[ti]} — ${SUMMARY[e.topic][ti]}</p></div></article>`;
 }
 
+/* ---------- おみくじ (hopeful only) ---------- */
+const RANKS=[
+ {r:"大吉",kana:"だいきち",w:20,jp:"{運気|うんき}{満|み}ちる。{思|おも}いのままに{進|すす}め",ko:"운이 가득 찼어요. 마음먹은 대로 나아가세요."},
+ {r:"中吉",kana:"ちゅうきち",w:25,jp:"{日増|ひま}しに{運|うん}{開|ひら}く",ko:"날이 갈수록 운이 열려요."},
+ {r:"小吉",kana:"しょうきち",w:20,jp:"{小|ちい}さき{幸|しあわ}せ、{重|かさ}なりて{大|だい}となる",ko:"작은 행복이 겹겹이 쌓여 큰 행복이 돼요."},
+ {r:"吉",kana:"きち",w:20,jp:"{穏|おだ}やかなる{日々|ひび}に{福|ふく}あり",ko:"평온한 나날 속에 복이 깃들어요."},
+ {r:"末吉",kana:"すえきち",w:15,jp:"{遅咲|おそざ}きの{花|はな}ほど{長|なが}く{咲|さ}く",ko:"늦게 핀 꽃일수록 오래 피어요. 운은 갈수록 좋아져요."}
+];
+const WORDS=[
+ {ex:"{雨|あめ}{降|ふ}って{地|じ}{固|かた}まる",kana:"あめふってじかたまる",lit:"비가 내린 뒤 땅이 굳는다",msg:"힘든 일을 지나온 만큼 당신의 자리는 더 단단해졌어요. 지금의 흔들림도 곧 기반이 됩니다."},
+ {ex:"{果報|かほう}は{寝|ね}て{待|ま}て",kana:"かほうはねてまて",lit:"좋은 소식은 자면서 기다려라",msg:"할 만큼 했다면 이제 조금 쉬어도 괜찮아요. 좋은 결과는 조급함이 아니라 여유 속에 찾아와요."},
+ {ex:"{石|いし}の{上|うえ}にも{三年|さんねん}",kana:"いしのうえにもさんねん",lit:"차가운 돌 위에도 삼 년이면 따뜻해진다",msg:"오래 버텨온 시간은 사라지지 않아요. 당신이 앉아 있던 그 자리가 이제 따뜻해지고 있어요."},
+ {ex:"{待|ま}てば{海路|かいろ}の{日和|ひより}あり",kana:"まてばかいろのひよりあり",lit:"기다리면 뱃길에도 좋은 날씨가 온다",msg:"지금 바람이 거세도 바다는 늘 다시 잔잔해져요. 떠날 날은 반드시 옵니다."},
+ {ex:"{千里|せんり}の{道|みち}も{一歩|いっぽ}から",kana:"せんりのみちもいっぽから",lit:"천 리 길도 한 걸음부터",msg:"오늘 내딛는 아주 작은 한 걸음이면 충분해요. 먼 길은 언제나 그렇게 시작됐어요."},
+ {ex:"{継続|けいぞく}は{力|ちから}なり",kana:"けいぞくはちからなり",lit:"계속하는 것이 힘이다",msg:"매일 이어온 것이 생각보다 큰 힘이 되어 있어요. 멈추지 않은 당신을 믿어주세요."},
+ {ex:"{塵|ちり}も{積|つ}もれば{山|やま}となる",kana:"ちりもつもればやまとなる",lit:"티끌도 쌓이면 산이 된다",msg:"보잘것없어 보이던 하루하루가 모여 산이 되고 있어요. 오늘의 작은 노력도 그 산의 일부예요."},
+ {ex:"{案|あん}ずるより{産|う}むが{易|やす}し",kana:"あんずるよりうむがやすし",lit:"걱정하는 것보다 낳는 것이 쉽다",msg:"머릿속으로 그리던 것보다 실제는 훨씬 수월할 거예요. 걱정은 내려놓고 시작해 보세요."},
+ {ex:"{一期一会|いちごいちえ}",kana:"いちごいちえ",lit:"평생 단 한 번의 만남",msg:"오늘 만나는 사람과 순간은 다시 오지 않는 선물이에요. 지금 이 시간을 소중히 누리세요."},
+ {ex:"{失敗|しっぱい}は{成功|せいこう}のもと",kana:"しっぱいはせいこうのもと",lit:"실패는 성공의 근원",msg:"잘 안 됐던 일은 실패가 아니라 다음을 위한 재료예요. 당신은 이미 한 걸음 가까워졌어요."},
+ {ex:"{残|のこ}り{物|もの}には{福|ふく}がある",kana:"のこりものにはふくがある",lit:"남은 것에 복이 있다",msg:"늦었다고, 뒤처졌다고 느껴도 괜찮아요. 마지막에 남은 자리에 가장 큰 복이 기다리기도 해요."},
+ {ex:"{情|なさ}けは{人|ひと}の{為|ため}ならず",kana:"なさけはひとのためならず",lit:"정은 남을 위한 것만이 아니다",msg:"당신이 베푼 따뜻함은 돌고 돌아 당신에게 돌아와요. 그동안의 친절이 곧 열매를 맺을 거예요."},
+ {ex:"{冬|ふゆ}{来|き}たりなば{春|はる}{遠|とお}からじ",kana:"ふゆきたりなばはるとおからじ",lit:"겨울이 왔다면 봄도 멀지 않다",msg:"지금이 가장 추운 때라면 봄은 바로 문 앞에 와 있어요. 조금만 더 따뜻하게 버텨 주세요."},
+ {ex:"{明|あ}けない{夜|よる}はない",kana:"あけないよるはない",lit:"밝지 않는 밤은 없다",msg:"아무리 긴 밤도 반드시 아침을 맞아요. 오늘 밤은 푹 쉬고, 내일의 빛을 기다려요."},
+ {ex:"{止|や}まない{雨|あめ}はない",kana:"やまないあめはない",lit:"그치지 않는 비는 없다",msg:"지금 내리는 비도 언젠가 그쳐요. 비가 그친 하늘은 전보다 더 맑을 거예요."},
+ {ex:"{大器晩成|たいきばんせい}",kana:"たいきばんせい",lit:"큰 그릇은 늦게 완성된다",msg:"남보다 느리다고 조급해하지 마세요. 큰 그릇일수록 빚어지는 데 시간이 걸려요."},
+ {ex:"{好|す}きこそ{物|もの}の{上手|じょうず}なれ",kana:"すきこそもののじょうずなれ",lit:"좋아하는 것이야말로 잘하게 된다",msg:"당신이 좋아하는 그 일이 당신을 데려갈 거예요. 즐거운 마음을 길잡이로 삼으세요."},
+ {ex:"{住|す}めば{都|みやこ}",kana:"すめばみやこ",lit:"살다 보면 그곳이 서울",msg:"낯선 자리도 머물다 보면 내 자리가 돼요. 지금 있는 곳에서 천천히 뿌리를 내려 보세요."},
+ {ex:"{日々是好日|にちにちこれこうじつ}",kana:"にちにちこれこうじつ",lit:"날마다 좋은 날",msg:"좋은 날과 나쁜 날이 따로 있는 게 아니에요. 오늘도 그 자체로 충분히 좋은 하루예요."},
+ {ex:"{一陽来復|いちようらいふく}",kana:"いちようらいふく",lit:"음이 다하면 양이 돌아온다",msg:"힘든 시기가 끝나고 좋은 흐름이 돌아오고 있어요. 당신에게 다시 볕이 들 차례예요."},
+ {ex:"{桜梅桃李|おうばいとうり}",kana:"おうばいとうり",lit:"벚꽃·매화·복숭아·자두",msg:"꽃마다 피는 때와 모양이 달라요. 남과 비교하지 않아도, 당신은 당신의 꽃으로 피면 돼요."},
+ {ex:"{雲外蒼天|うんがいそうてん}",kana:"うんがいそうてん",lit:"구름 너머에는 푸른 하늘",msg:"지금은 구름이 가려도 그 너머 하늘은 늘 푸르러요. 이 시기를 넘으면 맑은 하늘이 기다려요."},
+ {ex:"{晴耕雨読|せいこううどく}",kana:"せいこううどく",lit:"맑으면 밭 갈고 비 오면 책 읽는다",msg:"날씨에 맞춰 사는 것도 지혜예요. 움직일 때와 쉴 때를 스스로에게 허락해 주세요."},
+ {ex:"{捨|す}てる{神|かみ}あれば{拾|ひろ}う{神|かみ}あり",kana:"すてるかみあればひろうかみあり",lit:"버리는 신이 있으면 주워 주는 신도 있다",msg:"한쪽 문이 닫혔다면 다른 쪽 문이 열리고 있어요. 당신을 알아봐 줄 사람과 기회는 반드시 있어요."}
+];
+const ITEMS=[
+ {k:"願望",kana:"ねがいごと",o:[["{思|おも}うままに{叶|かな}う","바라는 대로 이루어진다"],["{時|とき}を{待|ま}てば{叶|かな}う","때를 기다리면 이루어진다"],["{人|ひと}の{助|たす}けあり {叶|かな}う","사람의 도움으로 이루어진다"],["{焦|あせ}らず{進|すす}めば{叶|かな}う","서두르지 않으면 이루어진다"]]},
+ {k:"待人",kana:"まちびと",o:[["{来|く}る {便|たよ}りあり","온다, 소식이 있다"],["{遅|おそ}くとも{必|かなら}ず{来|く}る","늦어도 반드시 온다"],["{思|おも}わぬ{人|ひと}{来|く}る","뜻밖의 사람이 온다"]]},
+ {k:"学問",kana:"がくもん",o:[["{努力|どりょく}すれば{実|みの}る","노력하면 결실을 맺는다"],["{安心|あんしん}して{勉学|べんがく}せよ","안심하고 공부하라"],["{一歩|いっぽ}ずつ{確|たし}かに{伸|の}びる","한 걸음씩 확실히 는다"]]},
+ {k:"恋愛",kana:"れんあい",o:[["{誠意|せいい}をもてば{通|つう}じる","진심이면 통한다"],["{良|よ}き{縁|えん}あり","좋은 인연이 있다"],["{身近|みぢか}に{幸|さち}あり","가까운 곳에 행복이 있다"]]},
+ {k:"健康",kana:"けんこう",o:[["{養生|ようじょう}すれば{快|こころよ}し","몸을 돌보면 상쾌하다"],["{心|こころ}{穏|おだ}やかに{過|す}ごせ","마음을 편안히 지내라"],["よく{眠|ねむ}れば{吉|きち}","푹 자면 좋다"]]},
+ {k:"旅行",kana:"りょこう",o:[["{行|ゆ}く{先|さき}に{喜|よろこ}びあり","가는 곳에 기쁨이 있다"],["{近|ちか}き{所|ところ} {吉|きち}","가까운 곳이 좋다"],["{新|あたら}しき{出会|であ}いあり","새로운 만남이 있다"]]},
+ {k:"仕事",kana:"しごと",o:[["{誠実|せいじつ}に{励|はげ}めば{利|り}あり","성실히 힘쓰면 이익이 있다"],["{助|たす}け{手|て}{現|あらわ}る","도와줄 사람이 나타난다"],["{小|ちい}さく{始|はじ}めて{大|おお}きく{育|そだ}つ","작게 시작해 크게 자란다"]]}
+];
+function rb(t){return t.replace(/\{([^|}]+)\|([^}]+)\}/g,"<ruby>$1<rt>$2</rt></ruby>");}
+function kanjiNum(n){const d=["","一","二","三","四","五","六","七","八","九"];if(n<10)return d[n];if(n===10)return"十";if(n<20)return"十"+d[n-10];return d[Math.floor(n/10)]+"十"+d[n%10];}
+function drawOmikuji(){
+ let x=Math.random()*100, ri=0; for(;ri<RANKS.length;ri++){x-=RANKS[ri].w;if(x<0)break;} if(ri>=RANKS.length)ri=0;
+ const wi=Math.floor(Math.random()*WORDS.length);
+ const it=ITEMS.map(i=>Math.floor(Math.random()*i.o.length));
+ return {date:todayStr(),r:ri,w:wi,it};
+}
+const MIKUJI_BOX=`<svg viewBox="0 0 120 200" aria-hidden="true">
+ <rect x="30" y="40" width="60" height="150" fill="#5A3A22" stroke="#1E1B18" stroke-width="2"/>
+ <rect x="30" y="40" width="20" height="150" fill="#6E4A2C"/><rect x="70" y="40" width="20" height="150" fill="#4A2E1A"/>
+ <rect x="27" y="34" width="66" height="10" fill="#1E1B18"/><rect x="27" y="180" width="66" height="10" fill="#1E1B18"/>
+ <rect x="47" y="58" width="26" height="110" fill="#F1E6CF" stroke="#B5402A" stroke-width="1.2"/>
+ <text x="60" y="82" text-anchor="middle" font-family="Yuji Syuku, serif" font-size="17" fill="#1E1B18">御</text>
+ <text x="60" y="108" text-anchor="middle" font-family="Yuji Syuku, serif" font-size="17" fill="#1E1B18">神</text>
+ <text x="60" y="134" text-anchor="middle" font-family="Yuji Syuku, serif" font-size="17" fill="#1E1B18">籤</text>
+ <rect x="56" y="18" width="8" height="20" fill="#E9DCBC" stroke="#1E1B18" stroke-width="1" class="stick"/>
+</svg>`;
+
+function renderOmikuji(){
+ const o=state.omikuji;
+ if(o && o.date===todayStr()){ renderOmikujiPaper(o,false); return; }
+ view.innerHTML=`<div class="panel">
+  <div class="mikuji-intro"><h2>おみくじ</h2><span class="ko">운세 뽑기</span><span class="desc">일본 신사와 절에서 통을 흔들어 뽑는 운세 종이예요</span></div>
+  <p class="prompt">마음을 가라앉히고 통을 흔들어 보세요</p>
+  <div class="mikuji-stage"><div class="mikuji-box" id="mbox">${MIKUJI_BOX}</div></div>
+  <div class="row center"><button class="btn" id="shake">おみくじを引く<span class="btn-sub">운세 뽑기</span></button></div>
+  <p class="note center">코토다마 おみくじ(운세 뽑기)에는 흉(凶)이 없어요. 오늘 당신에게 필요한 위로와 희망의 말만 들어 있습니다.</p>
+ </div>`;
+ document.getElementById("shake").onclick=()=>{
+  const btn=document.getElementById("shake"); btn.disabled=true;
+  const box=document.getElementById("mbox"); box.classList.add("shaking");
+  const res=drawOmikuji(); state.omikuji=res; save();
+  setTimeout(()=>{box.classList.remove("shaking");box.classList.add("out");},1100);
+  setTimeout(()=>renderOmikujiPaper(res,true),1800);
+ };
+}
+
+function renderOmikujiPaper(o,animate){
+ const R=RANKS[o.r], W=WORDS[o.w], no=o.w+1;
+ const kept=state.entries.some(e=>e.type==="omikuji"&&e.date===o.date);
+ view.innerHTML=`<div class="panel">
+  <article class="mikuji-paper${animate?" unfold":""}">
+   <header class="mp-head"><span>第${kanjiNum(no)}番</span><span class="mp-title">言霊おみくじ<small>코토다마 운세 뽑기</small></span></header>
+   <div class="mp-rank"><ruby>${R.r}<rt>${R.kana}</rt></ruby></div>
+   <p class="mp-rank-jp">${rb(R.jp)}</p>
+   <p class="mp-rank-ko">${R.ko}</p>
+   <div class="mp-word">
+    <p class="mp-ex">${rb(W.ex)}</p>
+    <p class="lit">${W.lit}</p>
+   </div>
+   <p class="mp-msg">${W.msg}</p>
+   <dl class="mp-items">${ITEMS.map((it,i)=>{const [jp,ko]=it.o[o.it[i]];return `<div><dt><ruby>${it.k}<rt>${it.kana}</rt></ruby></dt><dd><span class="mp-jp">${rb(jp)}</span><span class="mp-ko">${ko}</span></dd></div>`}).join("")}</dl>
+  </article>
+  <div class="row center"><button class="btn" id="keep" ${kept?"disabled":""}>${kept?"기록에 간직했어요":"마음에 간직하기"}</button><button class="btn ghost" id="again">다시 뽑기</button></div>
+  <p class="note center">일본에서는 좋은 おみくじ를 지갑에 넣어 간직하기도 해요. 간직하면 기록 탭에 남아요.</p>
+ </div>`;
+ document.getElementById("keep").onclick=()=>{
+  state.entries.unshift({type:"omikuji",date:o.date,r:o.r,w:o.w}); save();
+  const b=document.getElementById("keep"); b.disabled=true; b.textContent="기록에 간직했어요";
+ };
+ document.getElementById("again").onclick=()=>{state.omikuji=null;save();renderOmikuji();};
+}
+
+function omikujiEntry(e){
+ const R=RANKS[e.r], W=WORDS[e.w];
+ return `<article class="entry omikuji-entry">
+  <div class="oe-rank">${R.r}</div>
+  <div class="entry-body"><div class="entry-head">${e.date} · おみくじ(운세 뽑기) 第${kanjiNum(e.w+1)}番</div>
+  <p class="entry-a"><span class="oe-ex">${rb(W.ex)}</span></p>
+  <p class="entry-q">${W.msg}</p></div></article>`;
+}
+
 function renderJournal(){
  if(!state.entries.length){
-  view.innerHTML=`<div class="empty">아직 기록이 없어요.<br>오늘의 카드에 답하거나 질문 타로 결과를 저장하면 여기에 날짜별로 쌓입니다.</div>`;
+  view.innerHTML=`<div class="empty">아직 기록이 없어요.<br>오늘의 카드에 답하거나 질문 타로·おみくじ를 간직하면 여기에 날짜별로 쌓입니다.</div>`;
   return;
  }
- view.innerHTML=`<div class="entries">${state.entries.map(e=>{if(e.type==="reading")return readingEntry(e);const c=CARDS[e.card];return `
+ view.innerHTML=`<div class="entries">${state.entries.map(e=>{if(e.type==="reading")return readingEntry(e);if(e.type==="omikuji")return omikujiEntry(e);const c=CARDS[e.card];return `
   <article class="entry"><div class="face">${cardImg(c)}</div>
    <div class="entry-body"><div class="entry-head">${e.date} · ${c.jp}(${c.ko}) · ${c.myth.name}</div>
    <p class="entry-q">${c.q}</p><p class="entry-a">${esc(e.answer)}</p></div></article>`}).join("")}</div>`;
@@ -586,7 +746,7 @@ function renderJournal(){
 
 function show(v){
  document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-selected",b.dataset.view===v));
- if(v==="today")renderToday(); else if(v==="ask")renderAsk(); else if(v==="deck")renderDeck(); else renderJournal();
+ if(v==="today")renderToday(); else if(v==="ask")renderAsk(); else if(v==="omikuji")renderOmikuji(); else if(v==="deck")renderDeck(); else renderJournal();
 }
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.view));
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{})}
