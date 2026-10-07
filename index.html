@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>코토다마 타로</title>
+<meta name="theme-color" content="#0b2440">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kotodama-Taro">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/kotodama-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/kotodama-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/kotodama-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Mincho+B1:wght@500;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
@@ -114,8 +123,8 @@ textarea{width:100%;min-height:120px;resize:vertical;font-family:var(--f-body);f
 .topic-jp{font-family:var(--f-brush);font-size:24px;line-height:1.3;color:var(--shu)}
 .q-input{width:100%;font-family:var(--f-body);font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:10px 12px}
 .count{font-family:var(--f-ui);color:var(--shu);margin-left:6px}
-.fan{--cw:min(96px,21vw);--step:10deg;--org:250%;position:relative;height:calc(var(--cw)*5/3 + 100px);margin-top:4px}
-@media (max-width:520px){.fan{--step:8deg;--org:230%}}
+.fan{--cw:min(88px,19vw);--step:4deg;--org:280%;position:relative;height:calc(var(--cw)*5/3 + 92px);margin-top:4px}
+@media (max-width:520px){.fan{--cw:min(76px,18vw);--step:3.6deg;--org:270%}}
 .fan-card{position:absolute;left:50%;bottom:58px;width:var(--cw);margin-left:calc(var(--cw)/-2);aspect-ratio:3/5;border:0;padding:0;background:none;cursor:pointer;--a:calc(var(--k) * var(--step));transform-origin:50% var(--org);transform:rotate(var(--a));transition:transform .25s;filter:drop-shadow(3px 3px 0 rgba(30,27,24,.3))}
 .fan-card svg{display:block;width:100%;height:100%}
 .fan-card:hover{transform:rotate(var(--a)) translateY(-8px)}
@@ -596,7 +605,7 @@ function renderAsk(){
    :`<p class="txt">${t.ko}에 대한 질문을 마음속으로 떠올리세요.</p>`}
   </section>
   <p class="prompt" id="pick-msg">마음이 가는 카드 세 장을 고르세요 <span class="count">${ask.picked.length} / 3</span></p>
-  <div class="fan">${[0,1,2,3,4,5,6].map(i=>{const p=ask.picked.indexOf(i);return `<button class="fan-card${p>=0?" on":""}" data-i="${i}" style="--k:${i-3}" aria-label="${i+1}번째 카드">${backSVG()}${p>=0?`<span class="badge">${POS[p].jp}</span>`:""}</button>`}).join("")}</div>
+  <div class="fan">${Array.from({length:15},(_,i)=>i).map(i=>{const p=ask.picked.indexOf(i);return `<button class="fan-card${p>=0?" on":""}" data-i="${i}" style="--k:${i-7}" aria-label="${i+1}번째 카드">${backSVG()}${p>=0?`<span class="badge">${POS[p].jp}</span>`:""}</button>`}).join("")}</div>
   <div class="row center"><button class="btn" id="spread" ${ask.picked.length<3?"disabled":""}>카드 펼치기</button></div>
   <p class="toast center" id="ask-toast" aria-live="polite"></p>
  </div>`;
