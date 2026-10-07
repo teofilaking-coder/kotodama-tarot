@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오늘의 카드 · 코토다마 타로</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Mincho+B1:wght@500&family=Gowun+Dodum&display=swap">
+<style>
+/* Widget: a single print slip — card on the left, today's word on the right. Fixed light look to sit on the 상상나무 ivory page. */
+:root{
+  --paper:#F7F0E0; --ink:#1E1B18; --soft:#5E5648; --line:#D3C5A8; --shu:#B5402A; --ai:#23406A;
+  --f-brush:"Yuji Syuku","Shippori Mincho B1","Yu Mincho",serif;
+  --f-jp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-ui:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:transparent}
+.slip{height:100%;max-height:240px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-top:3px solid var(--ink);padding:14px 16px;font-family:var(--f-ui)}
+.card{width:108px;aspect-ratio:3/5;perspective:700px;border:0;padding:0;background:none;cursor:pointer}
+.flip{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,.7,.2,1)}
+.flip.on{transform:rotateY(180deg)}
+.flip>div{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:2px solid var(--ink);box-shadow:3px 3px 0 rgba(30,27,24,.3);overflow:hidden;background:#F1E6CF}
+.front{transform:rotateY(180deg)}
+.front img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.back svg{display:block;width:100%;height:100%}
+.text{min-width:0;display:flex;flex-direction:column;gap:3px}
+.eyebrow{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--soft);letter-spacing:.06em}
+.eyebrow b{font-family:var(--f-brush);font-weight:400;color:var(--paper);background:var(--shu);padding:0 5px;letter-spacing:0}
+.title{font-family:var(--f-brush);font-size:22px;line-height:1.5;margin:2px 0 0}
+.title rt{font-family:var(--f-jp);font-size:10px;color:var(--soft);letter-spacing:.1em}
+.title small{font-family:var(--f-ui);font-size:12.5px;color:var(--soft);margin-left:6px}
+.kotoba{font-family:var(--f-brush);font-size:18px;line-height:1.45;margin:0;overflow-wrap:anywhere}
+.kana{font-family:var(--f-jp);font-size:12px;color:var(--soft);margin:0}
+.mean{font-size:13px;line-height:1.55;margin:2px 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.intro{font-size:14px;line-height:1.6;margin:4px 0 0;color:var(--soft)}
+.btn{align-self:flex-start;margin-top:8px;font-family:var(--f-ui);font-size:13.5px;padding:7px 14px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);box-shadow:2px 2px 0 var(--shu);cursor:pointer;text-decoration:none;display:inline-block}
+.btn:focus-visible,.card:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+@media (max-width:360px){.slip{gap:12px;padding:12px}.card{width:88px}.title{font-size:19px}.kotoba{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.flip{transition:none}}
+</style>
+</head>
+<body>
+<div class="slip" id="slip">
+  <button class="card" id="card" aria-label="오늘의 카드 뒤집기">
+    <div class="flip" id="flip">
+      <div class="back">
+        <svg viewBox="0 0 120 200" aria-hidden="true">
+          <defs><pattern id="w" width="20" height="10" patternUnits="userSpaceOnUse"><rect width="20" height="10" fill="#1F3A64"/><g fill="none" stroke="#5F80AE" stroke-width=".9"><path d="M0 10a10 10 0 0 1 20 0"/><path d="M4 10a6 6 0 0 1 12 0"/><path d="M8 10a2 2 0 0 1 4 0"/><path d="M-10 5a10 10 0 0 1 20 0"/><path d="M10 5a10 10 0 0 1 20 0"/></g></pattern></defs>
+          <rect width="120" height="200" fill="url(#w)"/>
+          <circle cx="60" cy="100" r="30" fill="#B5402A" stroke="#1E1B18" stroke-width="1.6"/>
+          <text x="60" y="94" text-anchor="middle" font-family="Yuji Syuku, serif" font-size="17" fill="#F1E6CF">言</text>
+          <text x="60" y="116" text-anchor="middle" font-family="Yuji Syuku, serif" font-size="17" fill="#F1E6CF">霊</text>
+        </svg>
+      </div>
+      <div class="front" id="front"></div>
+    </div>
+  </button>
+  <div class="text" id="text">
+    <div class="eyebrow"><b>今日</b>코토다마 타로 · 오늘의 카드</div>
+    <p class="title">오늘의 한 장</p>
+    <p class="intro">일본 신화 속 카드 한 장이 오늘의 일본어 한 마디를 건네요.</p>
+    <button class="btn" id="draw">카드 뒤집기</button>
+  </div>
+</div>
+<script>
+const APP="https://kotodama-tarot.pages.dev/";
+const D=[{"n":0,"jp":"愚者","kana":"ぐしゃ","ko":"바보","ex":"当たって砕けろ","exKana":"あたってくだけろ","mean":"결과를 따지기 전에 일단 부딪쳐 보라는 말. 실패해도 해보는 쪽을 택하라는 격려입니다.","myth":"因幡の白兎"},{"n":1,"jp":"魔術師","kana":"まじゅつし","ko":"마법사","ex":"芸は身を助ける","exKana":"げいはみをたすける","mean":"익혀둔 기술이 언젠가 자신을 살린다는 뜻입니다.","myth":"少彦名命"},{"n":2,"jp":"女教皇","kana":"じょきょうこう","ko":"여사제","ex":"沈黙は金","exKana":"ちんもくはきん","mean":"(웅변은 은, 침묵은 금) 말하지 않음이 더 큰 가치를 가질 때가 있다는 뜻입니다.","myth":"豊玉姫"},{"n":3,"jp":"女帝","kana":"じょてい","ko":"여황제","ex":"育む","exKana":"はぐくむ","mean":"새가 날개로 새끼를 품듯, 시간을 들여 정성껏 키워낸다는 동사입니다.","myth":"木花咲耶姫"},{"n":4,"jp":"皇帝","kana":"こうてい","ko":"황제","ex":"礎","exKana":"いしずえ","mean":"건물을 받치는 돌. 무언가의 토대가 되는 사람이나 일을 가리킵니다.","myth":"大国主命"},{"n":5,"jp":"教皇","kana":"きょうこう","ko":"교황","ex":"温故知新","exKana":"おんこちしん","mean":"『논어』에서 온 사자성어. 지난 것을 깊이 익히면 새로운 이치가 보인다는 뜻입니다.","myth":"八咫烏"},{"n":6,"jp":"恋人","kana":"こいびと","ko":"연인","ex":"縁は異なもの味なもの","exKana":"えんはいなものあじなもの","mean":"사람의 인연은 예측할 수 없고 그래서 흥미롭다는 뜻입니다.","myth":"伊邪那岐・伊邪那美"},{"n":7,"jp":"戦車","kana":"せんしゃ","ko":"전차","ex":"為せば成る","exKana":"なせばなる","mean":"마음먹고 실행하면 이룰 수 있다는 말. 에도 시대 우에스기 요잔의 말로 알려져 있습니다.","myth":"日本武尊"},{"n":8,"jp":"力","kana":"ちから","ko":"힘","ex":"柔よく剛を制す","exKana":"じゅうよくごうをせいす","mean":"부드럽고 유연한 것이 오히려 강한 것을 이긴다는 뜻입니다.","myth":"金太郎"},{"n":9,"jp":"隠者","kana":"いんじゃ","ko":"은둔자","ex":"急がば回れ","exKana":"いそがばまわれ","mean":"서두를수록 안전하고 확실한 길로 가는 편이 결국 빠르다는 뜻입니다.","myth":"天狗"},{"n":10,"jp":"運命の輪","kana":"うんめいのわ","ko":"운명의 수레바퀴","ex":"人間万事塞翁が馬","exKana":"にんげんばんじさいおうがうま","mean":"좋은 일과 나쁜 일은 돌고 돌아 미리 알 수 없다는 뜻입니다.","myth":"風神雷神"},{"n":11,"jp":"正義","kana":"せいぎ","ko":"정의","ex":"因果応報","exKana":"いんがおうほう","mean":"행한 대로 그 결과가 돌아온다는 불교에서 온 말입니다.","myth":"閻魔大王"},{"n":12,"jp":"吊るされた男","kana":"つるされたおとこ","ko":"매달린 사람","ex":"負けるが勝ち","exKana":"まけるがかち","mean":"당장 양보하는 편이 결국 더 큰 이득이 된다는 뜻입니다.","myth":"浦島太郎"},{"n":13,"jp":"死神","kana":"しにがみ","ko":"죽음","ex":"生まれ変わる","exKana":"うまれかわる","mean":"환생하다, 또는 완전히 새로운 사람처럼 바뀐다는 동사입니다.","myth":"黄泉比良坂"},{"n":14,"jp":"節制","kana":"せっせい","ko":"절제","ex":"過ぎたるは猶及ばざるが如し","exKana":"すぎたるはなおおよばざるがごとし","mean":"『논어』의 과유불급. 넘치는 것은 부족한 것만큼 좋지 않다는 뜻입니다.","myth":"天沼矛"},{"n":15,"jp":"悪魔","kana":"あくま","ko":"악마","ex":"魔が差す","exKana":"まがさす","mean":"평소라면 하지 않을 일을 순간적으로 저지르고 싶은 마음이 든다는 뜻입니다.","myth":"八岐大蛇"},{"n":16,"jp":"塔","kana":"とう","ko":"탑","ex":"七転び八起き","exKana":"ななころびやおき","mean":"몇 번을 실패해도 다시 일어선다는 뜻입니다.","myth":"大鯰"},{"n":17,"jp":"星","kana":"ほし","ko":"별","ex":"明日は明日の風が吹く","exKana":"あしたはあしたのかぜがふく","mean":"내일 일은 내일 생각하자, 지나치게 걱정하지 말라는 뜻입니다.","myth":"織姫と彦星"},{"n":18,"jp":"月","kana":"つき","ko":"달","ex":"夢うつつ","exKana":"ゆめうつつ","mean":"꿈인지 현실인지 분간이 안 되는 몽롱한 상태를 말합니다.","myth":"かぐや姫"},{"n":19,"jp":"太陽","kana":"たいよう","ko":"태양","ex":"笑う門には福来たる","exKana":"わらうかどにはふくきたる","mean":"늘 웃음이 있는 집에 행운이 찾아온다는 뜻입니다.","myth":"天照大御神"},{"n":20,"jp":"審判","kana":"しんぱん","ko":"심판","ex":"初心忘るべからず","exKana":"しょしんわするべからず","mean":"노(能)의 대가 제아미가 남긴 말로 알려져 있습니다. 처음의 마음과 미숙함을 잊지 말라는 뜻입니다.","myth":"天岩戸"},{"n":21,"jp":"世界","kana":"せかい","ko":"세계","ex":"有終の美","exKana":"ゆうしゅうのび","mean":"일을 끝까지 훌륭하게 마무리하는 것을 말합니다.","myth":"龍神"}];
+const KEY="kotodama-widget-v1";
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));return s&&s.date===today()?s.card:null}catch(e){return null}}
+function save(n){try{localStorage.setItem(KEY,JSON.stringify({date:today(),card:n}))}catch(e){}}
+function show(n,animate){
+  const c=D[n];
+  document.getElementById("front").innerHTML=`<img src="cards/${String(n).padStart(2,"0")}.webp" alt="${c.jp}(${c.ko}) 카드 — ${c.myth}">`;
+  document.getElementById("text").innerHTML=`
+    <div class="eyebrow"><b>今日</b>오늘의 카드 · ${c.myth}</div>
+    <p class="title"><ruby>${c.jp}<rt>${c.kana}</rt></ruby><small>${c.ko}</small></p>
+    <p class="kotoba">${c.ex}</p>
+    <p class="kana">${c.exKana}</p>
+    <p class="mean">${c.mean}</p>
+    <a class="btn" href="${APP}?card=${n}" target="_blank" rel="noopener">오늘의 질문 보러 가기 →</a>`;
+  const f=document.getElementById("flip");
+  if(animate){requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.add("on")))}else f.classList.add("on");
+  const card=document.getElementById("card");card.disabled=true;card.style.cursor="default";card.setAttribute("aria-label",c.jp+" 카드");
+}
+function draw(){const n=Math.floor(Math.random()*D.length);save(n);show(n,true)}
+const saved=load();
+if(saved!==null) show(saved,false);
+else{document.getElementById("draw").onclick=draw;document.getElementById("card").onclick=draw;}
+</script>
+</body>
+</html>
