@@ -8,11 +8,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Kotodama-Taro">
+<meta name="apple-mobile-web-app-title" content="Kotodama Tarot">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="kotodama-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="kotodama-512.png">
-<link rel="apple-touch-icon" sizes="180x180" href="kotodama-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/kotodama-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/kotodama-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/kotodama-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Shippori+Mincho+B1:wght@500;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
@@ -282,12 +282,12 @@ const CARDS = [
  {n:3,jp:"女帝",kana:"じょてい",ko:"여황제",kw:["풍요","돌봄","성장"],arch:"대모(Great Mother)",archNote:"생명을 품고 키워내는 풍요로운 힘입니다.",ex:"育む",exKana:"はぐくむ",lit:"품어 기르다",mean:"새가 날개로 새끼를 품듯, 시간을 들여 정성껏 키워낸다는 동사입니다.",q:"요즘 내가 시간을 들여 정성껏 기르고 있는 것은 무엇인가요?"},
  {n:4,jp:"皇帝",kana:"こうてい",ko:"황제",kw:["구조","책임","기반"],arch:"아버지",archNote:"질서와 경계를 세워 세계를 지탱하는 힘입니다.",ex:"礎",exKana:"いしずえ",lit:"주춧돌",mean:"건물을 받치는 돌. 무언가의 토대가 되는 사람이나 일을 가리킵니다.",q:"내 하루를 받쳐주는 규칙이나 습관 하나는 무엇인가요?"},
  {n:5,jp:"教皇",kana:"きょうこう",ko:"교황",kw:["가르침","전통","배움"],arch:"스승·현자",archNote:"앞선 사람들이 쌓아온 지혜를 전해주는 존재입니다.",ex:"温故知新",exKana:"おんこちしん",lit:"옛것을 익혀 새것을 안다",mean:"『논어』에서 온 사자성어. 지난 것을 깊이 익히면 새로운 이치가 보인다는 뜻입니다.",q:"지금의 나를 만든 가르침 하나를 꼽는다면 무엇인가요?"},
- {n:6,jp:"恋人",kana:"こいびと",ko:"연인",kw:["선택","관계","결합"],arch:"대극의 합일",archNote:"서로 다른 두 쪽이 만나 하나가 되는 순간, 그리고 그 앞의 선택입니다.",ex:"縁は異なもの味なもの",exKana:"えんはいなものあじなもの",lit:"인연은 묘한 것, 맛있는 것",mean:"사람의 인연은 예측할 수 없고 그래서 흥미롭다는 뜻입니다.",q:"두 갈래 길 앞에서, 내 마음이 조용히 기우는 쪽은 어디인가요?"},
+ {n:6,jp:"恋人",kana:"こいびと",ko:"연인",kw:["선택","관계","결합"],arch:"대극의 합일",archNote:"서로 다른 두 쪽이 만나 하나가 되는 순간, 그리고 그 앞의 선택입니다.",ex:"縁は異なもの味なもの",exKana:"えんはいなものあじなもの",lit:"인연이란 참 묘하고 흥미로운 것이다",mean:"사람의 인연은 예측할 수 없고 그래서 흥미롭다는 뜻입니다.",q:"두 갈래 길 앞에서, 내 마음이 조용히 기우는 쪽은 어디인가요?"},
  {n:7,jp:"戦車",kana:"せんしゃ",ko:"전차",kw:["의지","전진","통제"],arch:"영웅",archNote:"서로 다른 힘을 한 방향으로 묶어 앞으로 나아가는 의지입니다.",ex:"為せば成る",exKana:"なせばなる",lit:"하면 이루어진다",mean:"마음먹고 실행하면 이룰 수 있다는 말. 에도 시대 우에스기 요잔의 말로 알려져 있습니다.",q:"나를 서로 다른 방향으로 끌고 있는 두 마음은 무엇인가요?"},
  {n:8,jp:"力",kana:"ちから",ko:"힘",kw:["인내","부드러움","용기"],arch:"본능과의 화해",archNote:"억누르는 힘이 아니라 길들이고 달래는 힘입니다.",ex:"柔よく剛を制す",exKana:"じゅうよくごうをせいす",lit:"부드러움이 굳셈을 누른다",mean:"부드럽고 유연한 것이 오히려 강한 것을 이긴다는 뜻입니다.",q:"억누르기보다 달래주고 싶은 내 안의 감정은 무엇인가요?"},
  {n:9,jp:"隠者",kana:"いんじゃ",ko:"은둔자",kw:["성찰","고독","탐구"],arch:"노현자(Wise Old Man)",archNote:"홀로 등불을 들고 안쪽을 비추는 지혜입니다.",ex:"急がば回れ",exKana:"いそがばまわれ",lit:"급하면 돌아가라",mean:"서두를수록 안전하고 확실한 길로 가는 편이 결국 빠르다는 뜻입니다.",q:"혼자 있을 때만 들리는 내 목소리는 무엇을 말하고 있나요?"},
  {n:10,jp:"運命の輪",kana:"うんめいのわ",ko:"운명의 수레바퀴",kw:["순환","전환","흐름"],arch:"자기(Self)의 순환",archNote:"오르내림을 반복하며 도는 삶의 큰 원, 만다라의 이미지입니다.",ex:"人間万事塞翁が馬",exKana:"にんげんばんじさいおうがうま",lit:"인간만사 새옹지마",mean:"좋은 일과 나쁜 일은 돌고 돌아 미리 알 수 없다는 뜻입니다.",q:"예전에 불운이라 여겼다가 나중에 다르게 보이게 된 일이 있나요?"},
- {n:11,jp:"正義",kana:"せいぎ",ko:"정의",kw:["균형","판단","책임"],arch:"균형",archNote:"치우침 없이 무게를 다는 마음의 저울입니다.",ex:"因果応報",exKana:"いんがおうほう",lit:"원인과 결과는 응한다",mean:"행한 대로 그 결과가 돌아온다는 불교에서 온 말입니다.",q:"내가 공정하지 못했던 대상이 혹시 나 자신은 아닌가요?"},
+ {n:11,jp:"正義",kana:"せいぎ",ko:"정의",kw:["균형","판단","책임"],arch:"균형",archNote:"치우침 없이 무게를 다는 마음의 저울입니다.",ex:"因果応報",exKana:"いんがおうほう",lit:"인과응보(행한 대로 돌아온다)",mean:"행한 대로 그 결과가 돌아온다는 불교에서 온 말입니다.",q:"내가 공정하지 못했던 대상이 혹시 나 자신은 아닌가요?"},
  {n:12,jp:"吊るされた男",kana:"つるされたおとこ",ko:"매달린 사람",kw:["멈춤","관점 전환","내려놓음"],arch:"희생과 전환",archNote:"거꾸로 매달려야 보이는 풍경, 멈춤 속의 깨달음입니다.",ex:"負けるが勝ち",exKana:"まけるがかち",lit:"지는 것이 이기는 것",mean:"당장 양보하는 편이 결국 더 큰 이득이 된다는 뜻입니다.",q:"거꾸로 바라보면 전혀 다르게 보이는 상황이 있나요?"},
  {n:13,jp:"死神",kana:"しにがみ",ko:"죽음",kw:["끝","정리","재생"],arch:"죽음과 재생",archNote:"무언가가 끝나야 새것이 자랄 자리가 생깁니다.",ex:"生まれ変わる",exKana:"うまれかわる",lit:"다시 태어나다",mean:"환생하다, 또는 완전히 새로운 사람처럼 바뀐다는 동사입니다.",q:"이제는 끝내도 괜찮다고 스스로 허락하고 싶은 것은 무엇인가요?"},
  {n:14,jp:"節制",kana:"せっせい",ko:"절제",kw:["조화","중용","조율"],arch:"연금술적 혼합",archNote:"서로 다른 것을 섞어 알맞은 비율을 찾는 과정입니다.",ex:"過ぎたるは猶及ばざるが如し",exKana:"すぎたるはなおおよばざるがごとし",lit:"지나침은 모자람과 같다",mean:"『논어』의 과유불급. 넘치는 것은 부족한 것만큼 좋지 않다는 뜻입니다.",q:"요즘 내가 지나치게 붙잡고 있는 것은 무엇인가요?"},
@@ -297,7 +297,7 @@ const CARDS = [
  {n:18,jp:"月",kana:"つき",ko:"달",kw:["불안","꿈","무의식"],arch:"무의식",archNote:"흐릿한 달빛 아래서 꿈과 두려움이 모양을 바꾸는 곳입니다.",ex:"夢うつつ",exKana:"ゆめうつつ",lit:"꿈과 생시",mean:"꿈인지 현실인지 분간이 안 되는 몽롱한 상태를 말합니다.",q:"최근 기억에 남는 꿈이나, 이유를 모르는 불안이 있나요?"},
  {n:19,jp:"太陽",kana:"たいよう",ko:"태양",kw:["기쁨","활력","명료"],arch:"신성한 아이",archNote:"꾸밈없이 드러나는 생명력과 기쁨입니다.",ex:"笑う門には福来たる",exKana:"わらうかどにはふくきたる",lit:"웃는 집 문에 복이 온다",mean:"늘 웃음이 있는 집에 행운이 찾아온다는 뜻입니다.",q:"오늘 나를 웃게 한 아주 작은 일은 무엇이었나요?"},
  {n:20,jp:"審判",kana:"しんぱん",ko:"심판",kw:["부름","부활","결단"],arch:"소명(부름)",archNote:"오래 잠들어 있던 내 안의 목소리가 다시 나를 부르는 순간입니다.",ex:"初心忘るべからず",exKana:"しょしんわするべからず",lit:"초심을 잊지 말라",mean:"노(能)의 대가 제아미가 남긴 말로 알려져 있습니다. 처음의 마음과 미숙함을 잊지 말라는 뜻입니다.",q:"처음 이 길을 택했을 때 나는 어떤 마음이었나요?"},
- {n:21,jp:"世界",kana:"せかい",ko:"세계",kw:["완성","통합","여정의 끝"],arch:"개성화(자기실현)",archNote:"흩어졌던 조각들이 모여 하나의 원을 이루는 완성입니다.",ex:"有終の美",exKana:"ゆうしゅうのび",lit:"끝이 있는 아름다움",mean:"일을 끝까지 훌륭하게 마무리하는 것을 말합니다.",q:"지금 한 바퀴를 잘 마무리하고 있는 일은 무엇인가요?"}
+ {n:21,jp:"世界",kana:"せかい",ko:"세계",kw:["완성","통합","여정의 끝"],arch:"개성화(자기실현)",archNote:"흩어졌던 조각들이 모여 하나의 원을 이루는 완성입니다.",ex:"有終の美",exKana:"ゆうしゅうのび",lit:"유종의 미(끝을 아름답게 맺음)",mean:"일을 끝까지 훌륭하게 마무리하는 것을 말합니다. 「有終の美を飾る(유종의 미를 거두다)」 꼴로 자주 써요.",q:"지금 한 바퀴를 잘 마무리하고 있는 일은 무엇인가요?"}
 ];
 
 
@@ -438,7 +438,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 
 
 function poolSize(){return state.pool==="all"?78:22}
-function poolPicker(){return `<div class="pool" role="group" aria-label="덱 선택"><button class="pool-btn" data-p="major" aria-pressed="${state.pool!=="all"}">메이저 22장</button><button class="pool-btn" data-p="all" aria-pressed="${state.pool==="all"}">전체 78장</button></div><p class="note" style="text-align:center">${state.pool==="all"?`마이너 56장(요괴 카드)까지 무작위로 나옵니다.${Object.keys(MIMG).length<56?" 일부 마이너 그림은 임시예요.":""}`:"22장의 메이저 아르카나 중 한 장이 무작위로 나옵니다."}</p>`}
+function poolPicker(){return `<div class="pool" role="group" aria-label="덱 선택"><button class="pool-btn" data-p="major" aria-pressed="${state.pool!=="all"}">메이저 22장</button><button class="pool-btn" data-p="all" aria-pressed="${state.pool==="all"}">전체 78장</button></div><p class="note" style="text-align:center">${state.pool==="all"?`마이너 56장(요괴 카드)까지 무작위로 나옵니다.${Object.keys(MIMG).length<56?" 일부 마이너 그림은 임시예요.":""}`:"22장의 메이저 아르카나에서 무작위로 나옵니다."}</p>`}
 function bindPool(again){view.querySelectorAll(".pool-btn").forEach(b=>b.onclick=()=>{state.pool=b.dataset.p;save();again()})}
 function renderToday(){
  const t=state.today;
